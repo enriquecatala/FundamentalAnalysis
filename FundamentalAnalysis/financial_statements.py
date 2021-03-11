@@ -44,6 +44,39 @@ def income_statement(ticker, api_key, period="annual"):
 
     return pd.DataFrame(data_formatted)
 
+def income_statement_raw(ticker, api_key, period="annual",limit = 1):
+    """
+    Description
+    ----
+    Gives information about the income statement of a company overtime
+    which includes i.a. revenue, operating expenses, profit margin and ETBIDA.
+
+    Input
+    ----
+    ticker (string)
+        The company ticker (for example: "GOOGL")
+    api_key (string)
+        The API Key obtained from https://financialmodelingprep.com/developer/docs/
+    period (string)
+        Data period, this can be "annual" or "quarter".
+    limit (int)
+        Number of elements to retrieve per period (by default the last one)
+
+    Output
+    ----
+    data (dataframe)
+        Data with variables in columns and the period in rows.
+    """
+    response = urlopen("https://financialmodelingprep.com/api/v3/income-statement/" +
+                       ticker + "?period=" + period + "&limit=" + str(limit) + "&apikey=" + api_key)
+    data = json.loads(response.read().decode("utf-8"))
+
+    if 'Error Message' in data:
+        raise ValueError(data['Error Message'])
+
+
+    return pd.DataFrame(data)
+
 
 def balance_sheet_statement(ticker, api_key, period="annual"):
     """

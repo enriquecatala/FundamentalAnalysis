@@ -54,7 +54,7 @@ Here you can find a list of the available functions within this package separate
 
 ## Installation
 1. `pip install FundamentalAnalysis`
-    * Alternatively, download this repository.
+    * Alternatively, download this repository and execute `pip install .` from the root folder of this repo.
 2. (within Python) `import FundamentalAnalysis as fa`
 
 To be able to use this package you need an API Key from FinancialModellingPrep. Follow the following instructions to

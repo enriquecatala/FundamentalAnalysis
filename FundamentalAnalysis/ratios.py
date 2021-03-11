@@ -44,6 +44,38 @@ def key_metrics(ticker, api_key, period="annual"):
 
     return pd.DataFrame(data_formatted)
 
+def key_metrics_raw(ticker, api_key, period="annual",limit = 1):
+    """
+    Description
+    ----
+    Gives raw information about key metrics of a company overtime which includes
+    i.a. PE ratio, Debt to Equity, Dividend Yield and Average Inventory.
+
+    Input
+    ----
+    ticker (string)
+        The company ticker (for example: "NFLX")
+    api_key (string)
+        The API Key obtained from https://financialmodelingprep.com/developer/docs/
+    period (string)
+        Data period, this can be "annual" or "quarter".
+    limit (int)
+        Number of elements to retrieve per period (by default the last one)
+
+    Output
+    ----
+    data (dataframe)
+        Data with variables in columns and the period in rows.
+    """
+    response = urlopen("https://financialmodelingprep.com/api/v3/key-metrics/" +
+                       ticker + "?period=" + period + "&limit=" + str(limit) + "&apikey=" + api_key)
+    data = json.loads(response.read().decode("utf-8"))
+
+    if 'Error Message' in data:
+        raise ValueError(data['Error Message'])
+    
+    return pd.DataFrame(data)
+
 
 def financial_ratios(ticker, api_key, period="annual"):
     """
@@ -85,6 +117,38 @@ def financial_ratios(ticker, api_key, period="annual"):
         data_formatted[date] = value
 
     return pd.DataFrame(data_formatted)
+
+def financial_ratios_raw(ticker, api_key, period="annual",limit = 1):
+    """
+    Description
+    ----
+    Gives information about the financial ratios of a company overtime
+    which includes i.a. investment, liquidity, profitability and debt ratios.
+
+    Input
+    ----
+    ticker (string)
+        The company ticker (for example: "LYFT")
+    api_key (string)
+        The API Key obtained from https://financialmodelingprep.com/developer/docs/
+    period (string)
+        Data period, this can be "annual" or "quarter".
+    limit (int)
+        Number of elements to retrieve per period (by default the last one)
+
+    Output
+    ----
+    data (dataframe)
+        Data with variables in columns and the period in rows.
+    """
+    response = urlopen("https://financialmodelingprep.com/api/v3/ratios/" +
+                       ticker + "?period=" + period + "&limit=" + str(limit) + "&apikey=" + api_key)
+    data = json.loads(response.read().decode("utf-8"))
+
+    if 'Error Message' in data:
+        raise ValueError(data['Error Message'])
+   
+    return pd.DataFrame(data)
 
 
 def financial_statement_growth(ticker, api_key, period="annual"):
